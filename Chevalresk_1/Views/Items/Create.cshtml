@@ -1,0 +1,154 @@
+﻿@model Chevalresk_1.Models.ItemView
+
+@{
+    ViewBag.Title = "Ajout d'item";
+}
+
+<h2>
+    @ViewBag.Title
+    @Helper.GlyphiconAction("Index", "glyphicon-arrow-up", "Retour à la liste")
+</h2>
+
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+
+    <div class="form-horizontal">
+        <hr />
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Name, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.Name, new { htmlAttributes = new { @class = "form-control", placeholder = "Nom" } })
+                @Html.ValidationMessageFor(model => model.Name, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Prix, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.Prix, new { htmlAttributes = new { @class = "form-control", placeholder = "Prix" } })
+                @Html.ValidationMessageFor(model => model.Prix, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Type, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Helper.EnumToRadioButtonGroup("Type", Model.Type, true)
+                @Html.ValidationMessageFor(model => model.Type, "", new { @class = "text-danger" })
+            </div>
+        </div>
+        <!--Arme-->
+        <div id="Arme" style="display:none">
+            <div class="form-group">
+                @Html.LabelFor(model => model.genreArme, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Helper.EnumToRadioButtonGroup("genreArme", Model.genreArme, true)
+                    @Html.ValidationMessageFor(model => model.genreArme, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.efficaciteArme, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.efficaciteArme, new { htmlAttributes = new { @class = "form-control", placeholder = "Efficacité" } })
+                    @Html.ValidationMessageFor(model => model.efficaciteArme, "", new { @class = "text-danger" })
+                </div>
+            </div>
+        </div>
+        <!--Armure-->
+        <div id="Armure" style="display:none">
+            <div class="form-group">
+                @Html.LabelFor(model => model.poids, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.poids, new { htmlAttributes = new { @class = "form-control", placeholder = "Poids" } })
+                    @Html.ValidationMessageFor(model => model.poids, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.matiere, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.matiere, new { htmlAttributes = new { @class = "form-control", placeholder = "Matière" } })
+                    @Html.ValidationMessageFor(model => model.matiere, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.taille, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.taille, new { htmlAttributes = new { @class = "form-control", placeholder = "Taille" } })
+                    @Html.ValidationMessageFor(model => model.taille, "", new { @class = "text-danger" })
+                </div>
+            </div>
+        </div>
+        <!--Potion-->
+        <div id="Potion" style="display:none">
+            <div class="form-group">
+                @Html.LabelFor(model => model.effet, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.effet, new { htmlAttributes = new { @class = "form-control", placeholder = "Effet" } })
+                    @Html.ValidationMessageFor(model => model.effet, "", new { @class = "text-danger" })
+                </div>
+            </div>
+            <div class="form-group">
+                @Html.LabelFor(model => model.duree, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.duree, new { htmlAttributes = new { @class = "form-control", placeholder = "Durée" } })
+                    @Html.ValidationMessageFor(model => model.duree, "", new { @class = "text-danger" })
+                </div>
+            </div>
+        </div>
+        <!--Ressource-->
+        <div class="form-group" id="Ressource" style="display:none">
+            @Html.LabelFor(model => model.description, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.description, new { htmlAttributes = new { @class = "form-control", placeholder = "Description" } })
+                @Html.ValidationMessageFor(model => model.description, "", new { @class = "text-danger", @id = "errorDescription" })
+            </div>
+        </div>
+        <div class="form-group">
+            @Html.LabelFor(model => model.QuantiteStock, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.QuantiteStock, new { htmlAttributes = new { @class = "form-control", placeholder = "Quantitée" } })
+                @Html.ValidationMessageFor(model => model.QuantiteStock, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.ImageData, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                <div style="width:200px">
+                    @Helper.ImageUploader(Model.Id, Model.GetImageURL(), "ImageData", "~/ImagesData/Loading_icon.gif", "Cliquez pour l'image de l'item.")
+                    @Html.ValidationMessage("ImageData", "", new { @class = "text-danger" })
+                </div>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="Ajouter" class="btn btn-primary" />
+            </div>
+        </div>
+    </div>
+}
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+    @Scripts.Render("~/bundles/selections")
+    @Scripts.Render("~/bundles/imageUploader")
+    <script>
+        $.validator.addMethod(
+            "Type",
+            function (value, element) {
+                return ($("input[name='Type']:checked").val() != undefined);
+            },
+            "Choix obligatoire"
+        );
+    </script>
+}
+

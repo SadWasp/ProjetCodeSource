@@ -1,0 +1,137 @@
+﻿@{
+    Chevalresk_1.Models.UserView onlineUser = Chevalresk_1.Models.OnlineUsers.GetSessionUser();
+}
+@model IEnumerable<Chevalresk_1.Models.ItemView>
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<table>
+    <tbody>
+        <tr>
+            <td>
+                <h2>
+                    Répertoire des items
+                    @if (onlineUser != null && onlineUser.Admin)
+                    {
+                        @Helper.FlashButton("Create", "Items", "iconPlus", "Create", "bottom")
+                    }
+                </h2>
+
+                <div class="filterPicturesGrid">
+                    <!-- Search input -->
+                    @using (Html.BeginForm("Search", "Items"))
+                    {
+                        <div>
+                            @Html.TextBox("tags", "", new { style = "color:black" })
+
+                        </div>
+                        <div>
+                            <label for="All">Tout les items</label>
+                            @Html.CheckBox("All", (bool)(ViewBag.TypeAll))
+                        </div>
+                        <div>
+                            <label for="type[1]">Armes</label>
+                            @Html.CheckBox("type[0]", (bool)(ViewBag.TypeArme))
+                        </div>
+                        <div>
+                            <label for="type[2]">Armures</label>
+                            @Html.CheckBox("type[1]", (bool)(ViewBag.TypeArmure))
+                        </div>
+                        <div>
+                            <label for="type[3]">Potions</label>
+                            @Html.CheckBox("type[2]", (bool)(ViewBag.TypePotion))
+                        </div>
+                        <div>
+                            <label for="type[4]">Ressources</label>
+                            @Html.CheckBox("type[3]", (bool)(ViewBag.TypeRessource))
+                        </div>
+
+                        <div>
+                            <a href ="@Url.Action("SearchEtoiles","Items", new { nb = 5})">@Helper.RatingBar("FiveStar", 5, true) & +</a>
+                        </div>
+                        <div>
+                            <a href="@Url.Action("SearchEtoiles","Items", new { nb = 4})">@Helper.RatingBar("FourStar", 4, true) & +</a>
+                        </div>
+                        <div>
+                            <a href="@Url.Action("SearchEtoiles","Items", new { nb = 3})">@Helper.RatingBar("TreeStar", 3, true) & +</a>
+                        </div>
+                        <div>
+                            <a href="@Url.Action("SearchEtoiles","Items", new { nb = 2})">@Helper.RatingBar("TwoStar", 2, true) & +</a>
+                        </div>
+                        <div>
+                            <a href="@Url.Action("SearchEtoiles","Items", new { nb = 1})">@Helper.RatingBar("OneStar", 1, true) & +</a>
+                        </div>
+
+
+                        <div>
+                            <input type="submit" value="Rechercher" class="btn btn-primary" />
+                            <a href="@Url.Action("ToogleSort","Items")">
+                                @if ((bool)ViewBag.SortAscending)
+                                {
+                                    <img src="@Url.Content("~/Content/UI_Images/sort-ascending-icon.png")" class="SmallIcon2" />
+                                }
+                                else
+                                {
+                                    <img src="@Url.Content("~/Content/UI_Images/sort-descending-icon.png")" class="SmallIcon2" />
+                                }
+                            </a>
+                        </div>
+                    }
+
+                </div>
+
+            </td>
+            <td>&nbsp;</td>
+            <td>&nbsp;</td>
+            <td>&nbsp;</td>
+            <td>&nbsp;</td>
+            <td>
+            </td>
+        </tr>
+    </tbody>
+</table>
+
+
+<hr />
+
+<div id="photoContainersGrid" class="photoContainersGrid">
+    @if (Model.Count() > 0)
+    {
+        Html.RenderPartial("ItemsList", Model);
+    }
+    else
+    {
+        <span style="color:blue; font-weight:bold; text-shadow:1px 1px 2px white">Aucun item disponible.</span>
+    }
+</div>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+    @Scripts.Render("~/bundles/selections")
+    @Scripts.Render("~/bundles/imageUploader")
+
+    <script>
+        $(function () {
+            $('input[name*="type"]').bind('click', function () {
+                $('input[name="All"]').not(this).prop("checked", false);
+                var allChecked = $('input[name*="type"]:checked').length > 3;
+
+                if (allChecked) {
+                    $('input[name="All"]').prop("checked", true);
+                    $('input[name*="type"]').prop("checked", false);
+                }
+
+            });
+        });
+
+        $(function () {
+            $('input[name="All"]').bind('click', function () {
+                $('input[name*="type"]').not(this).prop("checked", false);
+
+            });
+        });
+
+    </script>
+}

@@ -1,0 +1,56 @@
+﻿
+@model IEnumerable<Chevalresk_1.Models.ItemView>
+<table class="table">
+
+    @{int com = 0; }
+    @foreach (var item in Model)
+    {
+
+        <tr>
+            <td>
+                @Helper.AvatarItem(item)
+            </td>
+
+            <td>
+                @Html.DisplayFor(modelItem => item.Name)
+            </td>
+
+            <td>
+                @Html.DisplayFor(modelItem => item.Prix)$
+            </td>
+
+            <td>
+                @using (Html.BeginForm("Modifier", "Paniers"))
+                {
+                    @Html.Hidden("itemId", item.Id)
+
+                    <label for="quantity">Quantite</label>
+
+                    <input type="number" style="color:black" id="quantity" name="quantity" min="1" max="@item.QuantiteStock" value="@ViewBag.Quantites[com]">
+                    <input type="submit" value="Modifier" class="btn btn-primary"/>
+                }
+            </td>
+
+            <td>
+                @using (Html.BeginForm("Remove", "Paniers"))
+                {
+                    @Html.Hidden("itemId", item.Id)
+
+                    <input type="submit" value="Supprimer" class="btn btn-danger"/>
+                }
+            </td>
+        </tr>
+        { com++; }
+    }
+</table>
+
+
+
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+    @Scripts.Render("~/bundles/selections")
+    @Scripts.Render("~/bundles/imageUploader")
+
+
+}

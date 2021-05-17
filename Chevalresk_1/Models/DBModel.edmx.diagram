@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="58c4e517e16e480bae1a390dfcb2a198" Name="Diagram1" ZoomLevel="124">
+        <EntityTypeShape EntityType="DBModel.Arme" Width="1.5" PointX="3" PointY="5" IsExpanded="true" />
+        <EntityTypeShape EntityType="DBModel.Armure" Width="1.5" PointX="3" PointY="7.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="DBModel.Inventaire" Width="1.5" PointX="3" PointY="11" IsExpanded="true" />
+        <EntityTypeShape EntityType="DBModel.Item" Width="1.5" PointX="0.75" PointY="8.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="DBModel.Panier" Width="1.5" PointX="6" PointY="9" IsExpanded="true" />
+        <EntityTypeShape EntityType="DBModel.Potion" Width="1.5" PointX="3" PointY="16.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="DBModel.Ressource" Width="1.5" PointX="3" PointY="19.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="DBModel.User" Width="1.5" PointX="3.75" PointY="0.75" IsExpanded="true" />
+        <AssociationConnector Association="DBModel.FK_Armes_Items" ManuallyRouted="false" />
+        <AssociationConnector Association="DBModel.FK_Armures_Items" ManuallyRouted="false" />
+        <AssociationConnector Association="DBModel.FK_Inv_Items" ManuallyRouted="false" />
+        <AssociationConnector Association="DBModel.FK_Inv_Users" ManuallyRouted="false" />
+        <AssociationConnector Association="DBModel.FK_Paniers_Items" ManuallyRouted="false" />
+        <AssociationConnector Association="DBModel.FK_Potions_Items" ManuallyRouted="false" />
+        <AssociationConnector Association="DBModel.FK_Ressources_Items" ManuallyRouted="false" />
+        <AssociationConnector Association="DBModel.FK_Panier_Users" ManuallyRouted="false" />
+        <EntityTypeShape EntityType="DBModel.Rating" Width="1.5" PointX="6" PointY="5.375" />
+        <AssociationConnector Association="DBModel.FK_Ratings_Items" />
+        <AssociationConnector Association="DBModel.FK_Ratings_Users" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>

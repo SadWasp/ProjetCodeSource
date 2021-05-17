@@ -1,0 +1,20 @@
+﻿@model IEnumerable<Chevalresk_1.Models.UserView>
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Liste des usagers</h2>
+
+<div id="photoContainersGrid" class="photoContainersGrid">
+    @{
+
+        Html.RenderPartial("OnlineUsersList", Model);
+    }
+</div>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+    @Scripts.Render("~/bundles/selections")
+    @Scripts.Render("~/bundles/imageUploader")
+}

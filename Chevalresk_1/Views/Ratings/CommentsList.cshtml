@@ -1,0 +1,71 @@
+﻿
+@model IEnumerable<Chevalresk_1.Models.RatingView>
+<table class="table">
+
+    @foreach (var item in Model)
+    {
+
+        if ((int)Session["Message"] == item.ItemId)
+        {
+    <tr>
+
+        <table>
+            <tbody>
+                <tr>
+
+
+
+
+                    <td>
+                        @Helper.RatingBar("Rating", item.Value, true)
+
+                    </td>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;</td>
+                    <td>
+                        @if (Chevalresk_1.Models.OnlineUsers.CurrentUser != null && Chevalresk_1.Models.OnlineUsers.CurrentUser.Id == item.UserId)
+                        {
+                            @Helper.FlashButton("Edit/" + item.Id, "Ratings", "iconEdit", "Modifier ce commentaire", "bottom")
+                        }
+                    </td>
+
+                    @if (Chevalresk_1.Models.OnlineUsers.CurrentUser != null && Chevalresk_1.Models.OnlineUsers.CurrentUser.Admin)
+                    {
+                        <td>
+                            @Helper.FlashButton("Delete/" + item.Id, "Ratings", "iconDelete", "Effacer ce commentaire", "bottom")
+                        </td>
+
+                    }
+                    @if (Chevalresk_1.Models.OnlineUsers.CurrentUser != null && Chevalresk_1.Models.OnlineUsers.CurrentUser.Id == item.UserId && !Chevalresk_1.Models.OnlineUsers.CurrentUser.Admin)
+                    {
+                        <td>
+                            @Helper.FlashButton("Delete/" + item.Id, "Ratings", "iconDelete", "Effacer ce commentaire", "bottom")
+                        </td>
+
+                    }
+                </tr>
+            </tbody>
+        </table>
+
+        @foreach (var user in ViewBag.ListUsers)
+        {
+            if (item.UserId == user.Id)
+            {
+                <div>
+                    <span style="font-size:125%;">
+                        <span style="font-size:140%;">@user.Alias</span>  : @item.Comment
+                    </span>
+                </div>
+            }
+        }
+
+
+    </tr>
+            <hr />
+        }
+
+    }
+</table>
+
+

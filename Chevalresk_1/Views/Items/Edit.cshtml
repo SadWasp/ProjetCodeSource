@@ -1,0 +1,205 @@
+﻿
+@model Chevalresk_1.Models.ItemView
+
+@{
+    ViewBag.Title = "Modification d'item";
+}
+
+<h2>
+    @ViewBag.Title
+    @Helper.GlyphiconAction("Index", "glyphicon-arrow-up", "Retour à la liste")
+</h2>
+
+@{
+    TempData.Keep("matiere");
+}
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+
+<div class="form-horizontal">
+    <hr />
+    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+    @Html.HiddenFor(model => model.Id)
+    @Html.HiddenFor(model => model.ImageId)
+    @*@Html.HiddenFor(model => model.ImageData)*@
+    @Html.HiddenFor(model => model.Type)
+    @Html.HiddenFor(model => model.QuantiteStock)
+    @Html.HiddenFor(model => model.NbRatings)
+    @Html.HiddenFor(model => model.RatingsAverage)
+
+
+    @*@Html.HiddenFor(model => model.genreArme)
+        @Html.HiddenFor(model => model.efficaciteArme)
+        @Html.HiddenFor(model => model.poids)
+        @Html.HiddenFor(model => model.taille)
+        @Html.HiddenFor(model => model.matiere)
+
+        @Html.HiddenFor(model => model.effet)
+        @Html.HiddenFor(model => model.duree)
+        @Html.HiddenFor(model => model.description)*@
+
+
+    @Html.Hidden("genreArme", " ")
+    @Html.Hidden("efficaciteArme", " ")
+    @Html.Hidden("poids", 0)
+    @Html.Hidden("taille", " ")
+    @Html.Hidden("matiere", " ")
+    @Html.Hidden("effet", " ")
+    @Html.Hidden("duree", 0)
+    @Html.Hidden("description", " ")
+
+
+    @*<input type="hidden" name="@Model.Name" value="@ViewBag.efficacites" />
+        <input type="hidden" name="@Model.effet" value="@ViewBag.effet" />*@
+
+
+
+
+
+
+    <div class="form-group">
+        @Html.LabelFor(model => model.Name, htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            @Html.EditorFor(model => model.Name, new { htmlAttributes = new { @class = "form-control" } })
+            @Html.ValidationMessageFor(model => model.Name, "", new { @class = "text-danger" })
+        </div>
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(model => model.Prix, htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            @Html.EditorFor(model => model.Prix, new { htmlAttributes = new { @class = "form-control" } })
+            @Html.ValidationMessageFor(model => model.Prix, "", new { @class = "text-danger" })
+        </div>
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(model => model.Type, htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-10 mainPageText">
+            @Html.DisplayFor(model => model.Type, new { htmlAttributes = new { @class = "form-control" } })
+        </div>
+    </div>
+    <!--Arme-->
+    @if (Model.Type == Chevalresk_1.Models.typeItem.Arme)
+    {
+        <div class="form-group">
+            @Html.LabelFor(model => model.genreArme, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Helper.EnumToRadioButtonGroup("genreArme", Model.genreArme, true)
+                @Html.ValidationMessageFor(model => model.genreArme, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.efficaciteArme, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.efficaciteArme, new { htmlAttributes = new { @class = "form-control", @Value = ViewBag.efficacite, @required = true } })
+                @Html.ValidationMessageFor(model => model.efficaciteArme, "", new { @class = "text-danger" })
+            </div>
+        </div>
+    }
+
+    <!--Armure-->
+    @if (Model.Type == Chevalresk_1.Models.typeItem.Armure)
+    {
+        <div class="form-group">
+            @Html.LabelFor(model => model.poids, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.poids, new { htmlAttributes = new { @class = "form-control", @Value = ViewBag.poids, @required = true } })
+                @Html.ValidationMessageFor(model => model.poids, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.matiere, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.matiere, new { htmlAttributes = new { @class = "form-control", @Value = ViewBag.matiere, @required = true } })
+                @Html.ValidationMessageFor(model => model.matiere, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.taille, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.taille, new { htmlAttributes = new { @class = "form-control", @Value = ViewBag.taille, @required = true } })
+                @Html.ValidationMessageFor(model => model.taille, "", new { @class = "text-danger" })
+            </div>
+        </div>
+    }
+    <!--Potion-->
+    @if (Model.Type == Chevalresk_1.Models.typeItem.Potion)
+    {
+        <div class="form-group">
+            @Html.LabelFor(model => model.effet, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.effet, new { htmlAttributes = new { @class = "form-control", @Value = ViewBag.effet, @required = true } })
+                @Html.ValidationMessageFor(model => model.effet, "", new { @class = "text-danger" })
+            </div>
+        </div>
+        <div class="form-group">
+            @Html.LabelFor(model => model.duree, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.duree, new { htmlAttributes = new { @class = "form-control", @Value = ViewBag.duree, @required = true } })
+                @Html.ValidationMessageFor(model => model.duree, "", new { @class = "text-danger" })
+            </div>
+        </div>
+    }
+    <!--Ressource-->
+    @if (Model.Type == Chevalresk_1.Models.typeItem.Ressource)
+    {
+        <div class="form-group">
+            @Html.LabelFor(model => model.description, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.description, new { htmlAttributes = new { @class = "form-control", @Value = ViewBag.description, @required = true } })
+                @Html.ValidationMessageFor(model => model.description, "", new { @class = "text-danger" })
+            </div>
+        </div>
+    }
+    <div class="form-group">
+        @Html.LabelFor(model => model.QuantiteStock, htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            @Html.EditorFor(model => model.QuantiteStock, new { htmlAttributes = new { @class = "form-control" } })
+            @Html.ValidationMessageFor(model => model.QuantiteStock, "", new { @class = "text-danger" })
+        </div>
+    </div>
+
+
+    <div class="form-group">
+        @Html.LabelFor(model => model.ImageData, htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            <div style="width:200px">
+                @Helper.ImageUploader(Model.Id, Model.GetImageURL(), "ImageData", "~/ImagesData/Loading_icon.gif", "Cliquez pour l'image de l'item.")
+                @Html.ValidationMessage("ImageData", "", new { @class = "text-danger" })
+            </div>
+        </div>
+    </div>
+
+
+    <div class="form-group">
+        <div class="col-md-offset-2 col-md-10">
+            <input type="submit" value="Modifier" class="btn btn-primary" />
+        </div>
+    </div>
+</div>
+
+    
+
+}
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+    @Scripts.Render("~/bundles/selections")
+    @Scripts.Render("~/bundles/imageUploader")
+    <script>
+        //$.validator.addMethod(
+        //    "Type",
+        //    function (value, element) {
+        //        return ($("input[name='Type']:checked").val() != undefined);
+        //    },
+        //    "Choix obligatoire"
+        //);
+    </script>
+}
+

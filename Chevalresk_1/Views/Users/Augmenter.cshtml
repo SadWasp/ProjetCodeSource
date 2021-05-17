@@ -1,0 +1,20 @@
+﻿@model Chevalresk_1.Models.UserView
+
+@{
+    ViewBag.Title = "Augmenter";
+}
+
+<div class="form-horizontal">
+    <h3>Augmenter Capital</h3>
+    @using (Html.BeginForm("Augmenter", "Users"))
+    {
+        @Html.Hidden("id", Model.Id)
+
+        <input type="number" class="form-control" id="nouveauMontant" name="nouveauMontant" value="@((float)ViewBag.Montant)" min="@((float)ViewBag.Montant)" step="any"
+               required oninvalid="this.setCustomValidity('Capital dois etre plus grand que: ' + @((float)ViewBag.Montant)"
+               oninput="this.setCustomValidity('')" />
+
+        <input type="submit" value="Augmenter" class="btn btn-primary" />
+
+    }
+</div>

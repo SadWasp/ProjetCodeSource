@@ -1,0 +1,91 @@
+﻿@model Chevalresk_1.Models.UserView
+
+@{
+    ViewBag.Title = "Profil";
+}
+
+<h2>Profil</h2>
+
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+
+<div class="form-horizontal">
+    @Helper.FlashButton("Index", "Items", "iconLeft", "Retour a la liste d'items ", "bottom")
+    <hr />
+    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+    @Html.HiddenFor(model => model.Id)
+    @Html.HiddenFor(model => model.AvatarId)
+    @Html.HiddenFor(model => model.Password)
+    @Html.HiddenFor(model => model.Montant)
+
+    @Html.Hidden("oldPassword", (string)ViewBag.oldPassword)
+
+    <div class="form-group">
+        @Html.LabelFor(model => model.Alias, htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            @Html.EditorFor(model => model.Alias, new { htmlAttributes = new { @class = "form-control" } })
+            @Html.ValidationMessageFor(model => model.Alias, "", new { @class = "text-danger" })
+        </div>
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(model => model.FullName, htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            @Html.EditorFor(model => model.FullName, new { htmlAttributes = new { @class = "form-control" } })
+            @Html.ValidationMessageFor(model => model.FullName, "", new { @class = "text-danger" })
+        </div>
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(model => model.NewPassword, htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            @Html.EditorFor(model => model.NewPassword, new { htmlAttributes = new { @class = "form-control" } })
+            @Html.ValidationMessageFor(model => model.NewPassword, "", new { @class = "text-danger" })
+        </div>
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(model => model.Confirmation, htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            @Html.EditorFor(model => model.Confirmation, new { htmlAttributes = new { @class = "form-control" } })
+            @Html.ValidationMessageFor(model => model.Confirmation, "", new { @class = "text-danger" })
+        </div>
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(model => model.AvatarData, htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-6">
+            <div style="width:200px">
+                @Helper.ImageUploader(Model.Id, Model.GetImageURL(), "AvatarData", "~/Avatars/Loading_icon.gif", "Cliquez pour choisir votre avatar")
+                @Html.ValidationMessage("AvatarData", "", new { @class = "text-danger" })
+            </div>
+        </div>
+    </div>
+
+    <div class="form-group">
+        <div class="col-md-offset-2 col-md-10">
+            <input type="submit" value="Enregistrer" class="btn btn-primary" />
+        </div>
+    </div>
+</div>
+}
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+    @Scripts.Render("~/bundles/imageUploader")
+
+    <script>
+        $(function () {
+            $("#NewPassword").val($("#oldPassword").val());
+            $("#Confirmation").val($("#oldPassword").val());
+        })
+
+
+
+    </script>
+
+
+
+}

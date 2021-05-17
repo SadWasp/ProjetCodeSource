@@ -1,0 +1,130 @@
+﻿@model Chevalresk_1.Models.ItemView
+
+@{
+    ViewBag.Title = "Effacer " + Model.Name;
+}
+
+<h3>
+    Êtes-vous sure de vouloir effacer @Model.Name?
+    @Helper.GlyphiconAction("Index", "glyphicon-arrow-up", "Retour à la liste")
+</h3>
+<div>
+    <hr />
+    <dl class="dl-horizontal" style="color:black">
+        <dt>
+            @Html.DisplayNameFor(model => model.Name)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Name)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Prix)
+        </dt>
+
+        <dd>
+            @String.Format("{0}", @Html.DisplayFor(model => model.Prix))$
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.QuantiteStock)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.QuantiteStock)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Type)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Type)
+        </dd>
+        @if (Model.Type == Chevalresk_1.Models.typeItem.Arme)
+        {
+            <dt>
+                @Html.DisplayNameFor(model => model.genreArme)
+            </dt>
+
+            <dd>
+                @ViewBag.genreArme
+            </dd>
+            <dt>
+                @Html.DisplayNameFor(model => model.efficaciteArme)
+            </dt>
+            <dd>
+                @ViewBag.efficacite
+            </dd>
+        }
+        else if (Model.Type == Chevalresk_1.Models.typeItem.Armure)
+        {
+            <dt>
+                @Html.DisplayNameFor(model => model.poids)
+            </dt>
+
+            <dd>
+                @ViewBag.Poids
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.matiere)
+            </dt>
+
+            <dd>
+                @ViewBag.matiere
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.taille)
+            </dt>
+
+            <dd>
+                @ViewBag.taille
+            </dd>
+        }
+        else if (Model.Type == Chevalresk_1.Models.typeItem.Potion)
+        {
+            <dt>
+                @Html.DisplayNameFor(model => model.effet)
+            </dt>
+
+            <dd>
+                @ViewBag.effet
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.duree)
+            </dt>
+
+            <dd>
+                @ViewBag.duree
+            </dd>
+        }
+        else if (Model.Type == Chevalresk_1.Models.typeItem.Ressource)
+        {
+            <dt>
+                @Html.DisplayNameFor(model => model.description)
+            </dt>
+
+            <dd>
+                @ViewBag.description
+            </dd>
+        }
+        <dd>
+            <div class="photoFixedSize">
+                @Helper.ImageFixedSize2(Url.Content(Model.GetImageURL()), Model.Name)
+            </div>
+        </dd>
+
+    </dl>
+
+    @using (Html.BeginForm())
+    {
+        @Html.AntiForgeryToken()
+
+        <div class="form-actions no-color">
+            <input type="submit" value="Effacer" class="btn btn-danger" />
+        </div>
+    }
+</div>

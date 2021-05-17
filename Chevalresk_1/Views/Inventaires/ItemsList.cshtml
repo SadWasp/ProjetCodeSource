@@ -1,0 +1,16 @@
+﻿@model IEnumerable<Chevalresk_1.Models.ItemView>
+
+@{int c = 0;}
+
+@foreach (var item in Model)
+{
+
+    int nb = (int)@ViewBag.Nb[c];
+
+    <a href="@Url.Action("Details/" + item.Id.ToString(), "Items")" class="mainPageText">
+        @Helper.ImageThumbnailWithQuantity(item.Name, item.GetImageURL(), item.Name, nb)
+    </a>
+    c++; 
+}
+
+

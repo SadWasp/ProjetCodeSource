@@ -1,0 +1,13 @@
+﻿<label>Montant Total: @String.Format("{0:0.00}", @TempData["Total"])$</label> 
+
+
+
+
+@using (Html.BeginForm("Acheter", "Paniers"))
+{
+    <input type="submit" value="Acheter" class="btn btn-primary"/>
+    if ((decimal)ViewBag.Solde < (decimal)@TempData["Total"])
+    {
+        <span style="color:red;">Solde insufisant.</span>
+    }
+}

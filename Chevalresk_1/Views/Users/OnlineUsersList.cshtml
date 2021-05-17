@@ -1,0 +1,38 @@
+﻿@model IEnumerable<Chevalresk_1.Models.UserView>
+<table class="table">
+
+    @foreach (var item in Model)
+    {
+        <tr>
+            @if (Chevalresk_1.Models.OnlineUsers.IsOnLine(item.Id))
+            {
+                <td>
+                    <img src="@Url.Content("~/Content/icons/OnLine.png")" class="SmallIcon">
+                </td>
+            }
+            else
+            {
+                <td>
+                    <img src="@Url.Content("~/Content/icons/OffLine.png")" class="SmallIcon">
+                </td>
+            }
+
+            <td>
+                @Helper.AvatarUser(item)
+            </td>
+
+            <td>
+                @Html.DisplayFor(modelItem => item.Alias)
+            </td>
+
+            @if (Chevalresk_1.Models.OnlineUsers.CurrentUser.Id != item.Id)
+            {
+                <td>
+                    @Helper.FlashButton("Details/" + item.Id, "Users", "iconDetails", "Détails", "left")
+                    @Helper.GlyphiconAction("../Inventaires/InventaireJoueur/" + item.Id,"glyphicon  GlyphIconStyle glyphicon-briefcase","Inventaire", "left")
+                    @Helper.FlashButton("Delete/" + item.Id, "Users", "iconDelete", "Effacer", "left")
+                </td>
+            }
+        </tr>
+    }
+</table>

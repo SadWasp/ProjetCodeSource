@@ -1,0 +1,441 @@
+﻿@helper IconAction(string Action, string Icon, string TooltipMessage, string ToolTipPlacement = "bottom")
+{
+    var Url = new System.Web.Mvc.UrlHelper(HttpContext.Current.Request.RequestContext);
+    <a href="@Url.Action(Action)" class="noUnderLine">
+        <img src='@Url.Content(@"~/Content/icons/" + Icon + ".png")'
+             class="Icon" data-toggle="tooltip"
+             data-placement="@ToolTipPlacement"
+             title="@TooltipMessage" />
+    </a>
+}
+
+@helper IconAction(string Action, string controller, string Icon, string TooltipMessage, string ToolTipPlacement = "bottom")
+{
+    var Url = new System.Web.Mvc.UrlHelper(HttpContext.Current.Request.RequestContext);
+    <a href="@Url.Action(Action, controller)" class="noUnderLine">
+        <img src='@Url.Content(@"~/Content/icons/" + Icon + ".png")'
+             class="Icon" data-toggle="tooltip"
+             data-placement="@ToolTipPlacement"
+             title="@TooltipMessage" />
+    </a>
+}
+
+@helper ImageHeader(string id, string imgClass, string url)
+{
+    var ContextUrl = new System.Web.Mvc.UrlHelper(HttpContext.Current.Request.RequestContext);
+    var imageUrl = ContextUrl.Content("~/Logo/defaultAddLogo.jpg");
+    if (!string.IsNullOrEmpty(url))
+    {
+        imageUrl = url;
+    }
+    <div id="@id" class='@imgClass' style='background:url(@imageUrl) no-repeat center; background-size: contain; '></div>
+
+}
+
+@helper InputDataList(string name, List<string> items, string value = "")
+{
+    string listName = name + "List";
+    value = System.Globalization.CultureInfo.CurrentCulture.TextInfo.ToTitleCase(value);
+    <input list="@listName" name="@name" class="form-control" value="@value" autocomplete="off" />
+    <datalist id="@listName">
+        @foreach (string text in items)
+        {
+            <option>@text</option>
+        }
+    </datalist>
+}
+
+
+
+@helper IconActionBasic(string Action, string Icon, string TooltipMessage, string ToolTipPlacement = "bottom")
+{
+    var Url = new System.Web.Mvc.UrlHelper(HttpContext.Current.Request.RequestContext);
+    <a href="@Url.Action(Action)" class="noUnderLine">
+        <img src='@Url.Content(@"~/Content/Icons/" + Icon + ".png")'
+             class="Icon" data-toggle="tooltip"
+             data-placement="@ToolTipPlacement"
+             title="@TooltipMessage" />
+    </a>
+}
+
+
+
+
+
+
+
+@helper SortAction(string Action, string fieldCaption, string RecordName, string fieldName)
+{
+    var Url = new System.Web.Mvc.UrlHelper(HttpContext.Current.Request.RequestContext);
+
+    var sortIcon = Url.Content("~/Content/UI_Images/Sort.png");
+    var sortAscIcon = Url.Content("~/Content/UI_Images/SortAsc.png");
+    var sortDescIcon = Url.Content("~/Content/UI_Images/SortDesc.png");
+
+    <a href="@Url.Action(Action, new { by = fieldName })" style="float:left">
+        @if ((string)Session[RecordName + "SortBy"] == fieldName)
+        {
+            if ((bool)Session[RecordName + "SortAscendant"])
+            {
+                <img src='@sortAscIcon' data-toggle="tooltip" data-placement="bottom" title="Trier" style="padding-right:4px;" class="Sort_Icon" />
+            }
+            else
+            {
+                <img src='@sortDescIcon' data-toggle="tooltip" data-placement="bottom" title="Trier" style="padding-right:4px;" class="Sort_Icon" />
+            }
+        }
+        else
+        {
+            <img src='@sortIcon' data-toggle="tooltip" data-placement="bottom" title="Trier" style="padding-right:4px;" class="Sort_Icon" />
+        }
+    </a>
+    @(new HtmlString(fieldCaption))
+}
+
+
+
+@helper AvatarProfilLink(Chevalresk_1.Models.UserView user)
+{
+    var Url = new System.Web.Mvc.UrlHelper(HttpContext.Current.Request.RequestContext);
+    var avatarUrl = Url.Content(user.GetImageURL());
+    var linkUrl = Url.Action("Profil", "Users");
+    <a href="@linkUrl" data-toogle="tooltip" title="Modifier le profil">
+        <div class="smallAvatar"
+             style="background: url(@avatarUrl) no-repeat center center; background-size: cover;"></div>
+        <span class="menuTitle">&nbsp;@user.FullName</span>
+    </a>
+}
+@helper AvatarUser(Chevalresk_1.Models.UserView user)
+{
+    var Url = new System.Web.Mvc.UrlHelper(HttpContext.Current.Request.RequestContext);
+    var avatarUrl = Url.Content(user.GetImageURL());
+    <div>
+        <div class="smallAvatar"
+             style="background: url(@avatarUrl) no-repeat center center; background-size: cover; float:left;"></div>
+
+    </div>
+    <br />
+}
+
+@helper AvatarUserRating(Chevalresk_1.Models.UserView user, string fieldName, double value = 0)
+{
+    int integer = (int)Math.Round(value);
+    var Url = new System.Web.Mvc.UrlHelper(HttpContext.Current.Request.RequestContext);
+    var avatarUrl = Url.Content(user.GetImageURL());
+    <div>
+        <div class="smallAvatar"
+             style="background: url(@avatarUrl) no-repeat center center; background-size: cover; float:left;"></div>
+        <input name="@fieldName" id="@fieldName" value=@integer class="RatingBar" disabled style="width:0px;display:none" />
+
+    </div>
+    <br />
+}
+
+@helper RatingBar(string fieldName, double value = 0, bool readOnly = false)
+{
+    int integer = (int)Math.Round(value);
+    if (readOnly)
+    {
+        <input name="@fieldName" id="@fieldName" value=@integer class="RatingBar" disabled style="width:0px;display:none" />
+    }
+    else
+    {
+        <input name="@fieldName" id="@fieldName" value=@integer class="RatingBar" style="width:0px;display:none" />
+    }
+}
+
+@helper ImageThumbnailWithRating(string id, float rating, int nb_rating, string url, string about)
+{
+    var Url = new System.Web.Mvc.UrlHelper(HttpContext.Current.Request.RequestContext);
+    url = Url.Content(url);
+    <div class="photo">
+        @Helper.RatingBar("rater_" + id, rating, true) &nbsp;<span>@nb_rating</span><br />
+        <div class="photoThumbnailContainer"
+             style="background: url(@url) no-repeat center center; background-size: cover;"
+             data-toggle="tooltip" title="@about"> </div>
+    </div>
+}
+
+@helper ImageThumbnail(string title, string url, string about)
+{
+    var Url = new System.Web.Mvc.UrlHelper(HttpContext.Current.Request.RequestContext);
+    url = Url.Content(url);
+    <div class="photo">
+        @title
+        <div class="photoThumbnailContainer"
+             style="background: url(@url) no-repeat center center; background-size: cover;"
+             data-toggle="tooltip" data-placement="top" title="@about"> </div>
+    </div>
+}
+
+@helper ImageThumbnailWithQuantity(string title, string url, string about, int quantity)
+{
+    var Url = new System.Web.Mvc.UrlHelper(HttpContext.Current.Request.RequestContext);
+    url = Url.Content(url);
+    <div class="photo">
+        @title
+        (@quantity)x
+        <div class="photoThumbnailContainer"
+             style="background: url(@url) no-repeat center center; background-size: cover;"
+             data-toggle="tooltip" data-placement="top" title="@about"> </div>
+    </div>
+}
+
+@helper ImageThumbnailWithPrice(string title, string url, string about, decimal price)
+{
+    var Url = new System.Web.Mvc.UrlHelper(HttpContext.Current.Request.RequestContext);
+    url = Url.Content(url);
+    <div class="photo">
+        @title
+
+        <div class="photoThumbnailContainer"
+             style="background: url(@url) no-repeat center center; background-size: cover;"
+             data-toggle="tooltip" data-placement="top" title="@about"> </div>
+        @String.Format("{0:0.00}", @price)$
+    </div>
+
+}
+
+@helper ImageThumbnailChangedLink(string title, string url, string about)
+{
+    var Url = new System.Web.Mvc.UrlHelper(HttpContext.Current.Request.RequestContext);
+    url = Url.Content(url);
+    <div class="photo">
+        @title
+        <div class="photoThumbnailContainer"
+             style="background: url(@url) no-repeat center center; background-size: cover;"
+             data-toggle="tooltip" data-placement="top" title="@about"> </div>
+    </div>
+}
+
+
+@helper ImageThumbnailBig(string title, string url, string about)
+{
+    var Url = new System.Web.Mvc.UrlHelper(HttpContext.Current.Request.RequestContext);
+    url = Url.Content(url);
+    <div class="BigPhoto">
+        <div class="photoThumbnailContainer"
+             style="background: url(@url) no-repeat center center; background-size: cover;"
+             data-toggle="tooltip" data-placement="top" title="@about"> </div>
+    </div>
+}
+
+
+@helper BigImage(string title, string url)
+{
+    var Url = new System.Web.Mvc.UrlHelper(HttpContext.Current.Request.RequestContext);
+    url = Url.Content(url);
+    <div>
+        @title
+        <div style="background: url(@url) no-repeat center center; background-size: cover;"
+             data-toggle="tooltip"> </div>
+    </div>
+}
+
+
+
+
+@helper Icon(string id, string Icon, string TooltipMessage, string ToolTipPlacement = "bottom", string css = "")
+{
+    string cssClass = "Icon";
+    if (!string.IsNullOrEmpty(css))
+    {
+        cssClass = cssClass + " " + css;
+    }
+    var Url = new System.Web.Mvc.UrlHelper(HttpContext.Current.Request.RequestContext);
+    <img src='@Url.Content(@"~/Content/UI_Images/" + Icon + ".png")'
+         class="@cssClass" data-toggle="tooltip"
+         data-placement="@ToolTipPlacement"
+         title="@TooltipMessage"
+         id="@id" />
+
+}
+
+@helper Avatar(string url, string about)
+{
+    var Url = new System.Web.Mvc.UrlHelper(HttpContext.Current.Request.RequestContext);
+    url = Url.Content(url);
+
+    <div class="avatar"
+         style="background: url(@url) no-repeat center center; background-size: cover;"
+         data-toggle="tooltip" title="@about"> </div>
+}
+
+@helper ImageFixedSize(string imageSrc, string about)
+{
+    var Url = new System.Web.Mvc.UrlHelper(HttpContext.Current.Request.RequestContext);
+    imageSrc = Url.Content(imageSrc);
+
+    <div class="imageUploader"
+         imageSrc='@imageSrc'
+         data-toggle="tooltip" title="@about"> </div>
+}
+
+@helper ImageFixedSize2(string imageSrc, string about)
+{
+    var Url = new System.Web.Mvc.UrlHelper(HttpContext.Current.Request.RequestContext);
+    imageSrc = Url.Content(imageSrc);
+
+
+    <div class="photoContainerFixedSize"
+         style="background: url(@imageSrc) no-repeat center center; background-size: cover; float:left;"
+         data-toggle="tooltip" title="@about"> </div>
+}
+
+@helper ImageUploader(int id, string imageSrc, string controlId = "ImageControl", string waitingImage = "", string TooltipMessage = "", string ToolTipPlacement = "bottom")
+{
+    var Url = new System.Web.Mvc.UrlHelper(HttpContext.Current.Request.RequestContext);
+    imageSrc = Url.Content(imageSrc);
+    controlId = Url.Content(controlId);
+    waitingImage = Url.Content(waitingImage);
+    <fieldset>
+        <div class='imageUploader' id='@id' controlId='@controlId' imageSrc='@imageSrc' waitingImage='@waitingImage'
+             data-toggle="tooltip"
+             data-placement="@ToolTipPlacement"
+             title="@TooltipMessage"> </div>
+    </fieldset>
+}
+
+@helper IconActionController(string Action, string controller, string Icon, string TooltipMessage, string ToolTipPlacement = "bottom")
+{
+    var Url = new System.Web.Mvc.UrlHelper(HttpContext.Current.Request.RequestContext);
+    <a href="@Url.Action(Action, controller)" class="noUnderLine">
+        <img src='@Url.Content(@"~/Content/UI_Images/" + Icon + ".png")'
+             class="@Icon" data-toggle="tooltip"
+             data-placement="@ToolTipPlacement"
+             title="@TooltipMessage" />
+    </a>
+}
+
+@helper FlashButton(string Action, string Icon, string TooltipMessage, string ToolTipPlacement = "bottom")
+{
+    var Url = new System.Web.Mvc.UrlHelper(HttpContext.Current.Request.RequestContext);
+    <a href="@Url.Action(Action)" class="noUnderLine">
+        <div class="@Icon flashButton" data-toggle="tooltip"
+             data-placement="@ToolTipPlacement"
+             title="@TooltipMessage"></div>
+    </a>
+}
+
+@helper FlashButton(string Action, string Controller, string Icon, string TooltipMessage, string ToolTipPlacement = "bottom")
+{
+    var Url = new System.Web.Mvc.UrlHelper(HttpContext.Current.Request.RequestContext);
+    <a href="@Url.Action(Action, Controller)" class="noUnderLine">
+        <div class="@Icon flashButton" data-toggle="tooltip"
+             data-placement="@ToolTipPlacement"
+             title="@TooltipMessage"></div>
+    </a>
+}
+
+
+@helper GlyphiconAction(string Action, string glyphiconClass, string TooltipMessage, string ToolTipPlacement = "bottom")
+{
+    var Url = new System.Web.Mvc.UrlHelper(HttpContext.Current.Request.RequestContext);
+    <a href="@Url.Action(Action)">
+        <span class="glyphicon glyphiconStyle @glyphiconClass"
+              title="@TooltipMessage"
+              data-placement="@ToolTipPlacement">
+        </span>
+    </a>
+}
+
+@helper EnumToRadioButtonGroup(string name, object enumObj, bool create = false)
+{
+    int index = 0;
+    foreach (var enumItem in Enum.GetValues(enumObj.GetType()))
+    {
+        string id = name + "_" + index.ToString();
+        if (!create && index == (int)enumObj)
+        {
+            <input type="radio" name="@name" class="@name" id="@id" value="@index" checked />
+        }
+        else
+        {
+            <input type="radio" name="@name" class="@name" id="@id" value="@index" />
+        }
+        <label for="@id" class="control-label">@enumItem.ToString()</label>
+        index++;
+    }
+    <br />
+}
+
+@helper AvatarItem(Chevalresk_1.Models.ItemView item)
+{
+    var Url = new System.Web.Mvc.UrlHelper(HttpContext.Current.Request.RequestContext);
+    var avatarUrl = Url.Content(item.GetImageURL());
+    <div>
+        <div class="smallAvatar"
+             style="background: url(@avatarUrl) no-repeat center center; background-size: cover; float:left;"></div>
+
+    </div>
+    <br />
+}
+
+@helper ImageThumbnailWithPriceAndRating(string title, string url, decimal price, float rating, int nb_rating, string about)
+{
+    var Url = new System.Web.Mvc.UrlHelper(HttpContext.Current.Request.RequestContext);
+    url = Url.Content(url);
+    <div class="photo">
+        @title
+        <div class="photoThumbnailContainer"
+             style="background: url(@url) no-repeat center center; background-size: cover;"
+             data-toggle="tooltip" data-placement="top" title="@about"> </div>
+        @String.Format("{0:0.00}", @price)$
+        @Helper.RatingBar("rater_" + title, rating, true) &nbsp;<span>(@nb_rating)</span><br />
+    </div>
+
+
+}
+
+
+@helper ItemRatingStat(List<double> pourcentage, float ratingAvg, int nb_rating)
+{
+    <div style="width: 400px;">
+
+        <span style="font-size:125%;">Évaluations:</span>
+
+        @Helper.RatingBar("rater_", ratingAvg, true) &nbsp;<span>@ratingAvg.ToString("0.0")</span><br />
+        <div style="font-size:125%;">@nb_rating évaluations</div>
+        <br />
+        5 Étoiles
+        <div class="progress">
+            <div class="progress-bar bg-warning" role="progressbar" style="width: @pourcentage[0]%" aria-valuenow="@pourcentage[0]" aria-valuemin="0" aria-valuemax="100">@pourcentage[0]%</div>
+        </div>
+        4 Étoiles
+        <div class="progress">
+            <div class="progress-bar bg-warning" role="progressbar" style="width: @pourcentage[1]%" aria-valuenow="@pourcentage[1]" aria-valuemin="0" aria-valuemax="100">@pourcentage[1]%</div>
+        </div>
+        3 Étoiles
+        <div class="progress">
+            <div class="progress-bar bg-warning" role="progressbar" style="width: @pourcentage[2]%" aria-valuenow="@pourcentage[2]" aria-valuemin="0" aria-valuemax="100">@pourcentage[2]%</div>
+        </div>
+        2 Étoiles
+        <div class="progress">
+            <div class="progress-bar bg-warning" role="progressbar" style="width: @pourcentage[3]%" aria-valuenow="@pourcentage[3]" aria-valuemin="0" aria-valuemax="100">@pourcentage[3]%</div>
+        </div>
+        1 Étoiles
+        <div class="progress">
+            <div class="progress-bar bg-warning" role="progressbar" style="width: @pourcentage[4]%" aria-valuenow="@pourcentage[4]" aria-valuemin="0" aria-valuemax="100">@pourcentage[4]%</div>
+        </div>
+    </div>
+}
+@helper GlyphiconControllerAction(string controller, string Action, string glyphiconClass, string TooltipMessage, string ToolTipPlacement = "bottom")
+{
+    var Url = new System.Web.Mvc.UrlHelper(HttpContext.Current.Request.RequestContext);
+    <a href="@Url.Action(Action, controller)">
+        <span class="glyphicon @glyphiconClass"
+              style="font-size:20px;"
+              title="@TooltipMessage"
+              data-placement="@ToolTipPlacement">
+        </span>
+    </a>
+}
+
+@*@helper RatingCard(List<double> pourcentage, float ratingAvg, int nb_rating)
+    {
+
+
+    }*@
+
+
+

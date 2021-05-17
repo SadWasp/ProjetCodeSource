@@ -1,0 +1,75 @@
+﻿@{
+    Chevalresk_1.Models.UserView onlineUser = Chevalresk_1.Models.OnlineUsers.GetSessionUser();
+}
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@ViewBag.Title</title>
+    @Styles.Render("~/Content/css")
+    @Scripts.Render("~/bundles/modernizr")
+</head>
+<body class="bodyBackground">
+    <div class="navbar navbar-inverse navbar-fixed-top" style="background-color:black;box-shadow: 5px 5px 15px #ff7149; opacity:0.9;color:white">
+        <div class="container">
+            <div class="navbar-header">
+                @Helper.ImageHeader("Header", "navbar-brand", "../../Logo/logo.jpg")
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                @Html.ActionLink("Chevalresk", "Index", "Items", new { area = "" }, new { @class = "navbar-brand" })
+            </div>
+            <div class="navbar-collapse collapse">
+                <ul class="nav navbar-nav">
+                    @if (onlineUser != null)
+                    {
+                        if (onlineUser.Admin)
+                        {
+                            <li>
+                                @Helper.GlyphiconControllerAction("Users", "Index", "glyphicon-user", "Liste des usagers...")
+                            </li>
+                        }
+                        <li>
+                            @Helper.GlyphiconControllerAction("Inventaires", "Index", "glyphicon-briefcase", "Inventaire...")
+                        </li>
+                        <li>
+                            @Helper.GlyphiconControllerAction("Paniers", "Purchase", "glyphicon-shopping-cart", "Panier...")
+                        </li>
+
+                        <li>
+                            @Helper.AvatarProfilLink(onlineUser)
+                        </li>
+                        <li>
+                            @Helper.GlyphiconControllerAction("Items", "About", "glyphicon-question-sign", "À propos...")
+                        </li>
+                        <li>
+                            @Helper.GlyphiconControllerAction("Users", "Logout", "glyphicon-log-out", "Déconnexion...")
+                        </li>
+
+                    }
+                    else
+                    {
+                        <li>@Helper.GlyphiconControllerAction("Items", "About", "glyphicon-question-sign", "À propos...")</li>
+                        <li>@Helper.GlyphiconControllerAction("Users", "Login", "glyphicon-log-in", "Connexion...")</li>
+                    }
+                </ul>
+            </div>
+        </div>
+    </div>
+    <div class="container body-content">
+        @RenderBody()
+        <hr />
+        <footer>
+            <p>&copy; @DateTime.Now.Year - Chevalresk</p>
+        </footer>
+    </div>
+
+    @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/bundles/bootstrap")
+    @RenderSection("scripts", required: false)
+</body>
+</html>

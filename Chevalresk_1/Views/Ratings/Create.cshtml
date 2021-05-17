@@ -1,0 +1,161 @@
+﻿@model Chevalresk_1.Models.RatingView
+
+@{
+    ViewBag.Title = "Create";
+}
+
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+
+    <div class="form-horizontal">
+        <h3>Ajout de cotation </h3>
+        @Helper.FlashButton("Index", "Items", "iconLeft", "Retour au items", "bottom")
+
+        <hr />
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+        <table>
+            <tr>
+                <td style="font-weight:bold; font-size:medium">Votre évaluation&nbsp;</td>
+                <td>@Helper.RatingBar("Value", (int)ViewBag.UserRating)</td>
+            </tr>
+        </table>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Comment, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.Comment, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.Comment, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="Ajouter" class="btn btn-default" />
+            </div>
+        </div>
+    </div>
+}
+
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+    @Scripts.Render("~/bundles/selections")
+    @Scripts.Render("~/bundles/imageUploader")
+
+    <script>
+         $(function () {
+             InstallPeriodicRefreshTask();
+             $("#add-comment").click(function () {
+                 CreateComment();
+             });
+             $("#comment").keypress(function (e) {
+                 let key = e.keyCode;
+                 if (key === 13)
+                     CreateComment();
+             });
+             $(".star").click(function () { ChangeRating(); });
+         })
+
+        function InstallPeriodicRefreshTask() {
+            RefreshCommentsList();
+            RefreshRatingAverage();
+
+            setInterval(function () {
+                CheckIfMustRefreshComments();
+                CheckIfMustRefreshRatings();
+            }, 3000);
+        }
+
+        function ChangeRating() {
+            let newRating = $(".RatingBarContainer .fullStar").length;
+            let url = "@Url.Action("Change","Ratings")";
+            $.ajax({
+                 type: "POST",
+                url: url,
+                data: { Value: $("#Id").val(), Value: newRating },
+                 success: function (response) {
+                      RefreshRatingAverage();
+                 }
+            });
+        }
+
+        function CreateComment() {
+            let r = $("#comment").val().replace(/[^\x00-\xFF]/g, "");
+            $("#comment").val(r);
+            let url = "@Url.Action("Create","Comments")";
+            $.ajax({
+                 type: "POST",
+                 url: url,
+                 data: {ItemId : $("#Id").val(), Text : $("#comment").val()},
+                 success: function (response) {
+                     $("#comment").val("");
+                     RefreshCommentsList();
+                 }
+            });
+        }
+        function DeleteComment(id) {
+            let url = "@Url.Action("Delete","Comments")";
+             $.ajax({
+                 type: "POST",
+                 url: url,
+                 data: {id : id},
+                 success: function (response) {
+                     RefreshCommentsList();
+                 }
+            });
+        }
+
+        function CheckIfMustRefreshComments() {
+             $.ajax({
+                type: "GET",
+                url: "@Url.Action("MustRefresh","Comments")",
+                 success: function (response) {
+                     if (response.mustRefresh)
+                        RefreshCommentsList();
+                }
+            });
+        }
+        function CheckIfMustRefreshRatings() {
+             $.ajax({
+                type: "GET",
+                url: "@Url.Action("MustRefresh","Ratings")",
+                 success: function (response) {
+                     if (response.mustRefresh)
+                        RefreshRatingAverage();
+                }
+            });
+        }
+        function RefreshCommentsList() {
+            let url = "@Url.Action("CommentsList","Comments")" + "?itemId=" + $("#Id").val();
+            $.ajax({
+                type: "GET",
+                url: url,
+                dataType: "html",
+                success: function (html) {
+                    $("#commentsContainersGrid").html(html);
+                    $(".delete-comment").click(function () {
+                        let id = $(this).attr("id").split("_")[1];
+                        if (confirm("Effacer ce commentaire?"))
+                            DeleteComment(id);
+                    });
+                }
+            });
+        }
+
+        function RefreshRatingAverage() {
+            let url = "@Url.Action("RatingsAverage","Ratings")" + "?itemId=" + $("#Id").val();
+            $.ajax({
+                type: "GET",
+                url: url,
+                dataType: "html",
+                success: function (html) {
+                    $("#RatingAverageContainer").html(html);
+                    BindRatingBar("Average");
+                }
+            });
+        }
+    </script>
+}

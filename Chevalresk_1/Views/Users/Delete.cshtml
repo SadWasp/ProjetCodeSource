@@ -1,0 +1,28 @@
+﻿@model Chevalresk_1.Models.UserView
+
+@{
+    ViewBag.Title = "Delete";
+}
+
+<div>
+    <h3>Êtes-vous sur de vouloir supprimer cet usager ?</h3>
+    @Helper.FlashButton("Details/" + Model.Id, "Users", "iconLeft", "Retour a l'usager", "bottom")
+    <hr />
+    <dl class="dl-horizontal">
+
+        <dt>
+            @Helper.ImageThumbnail(Model.Alias, Model.GetImageURL(), Model.Alias)
+        </dt>
+
+    </dl>
+
+    @using (Html.BeginForm())
+    {
+        @Html.AntiForgeryToken()
+
+        <div class="form-actions no-color">
+            <input type="submit" value="Effacer" class="btn btn-danger" />
+        </div>
+    }
+</div>
+

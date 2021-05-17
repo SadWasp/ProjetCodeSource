@@ -1,0 +1,28 @@
+﻿@{
+    ViewBag.Title = "About";
+}
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+    <div class="container body-content">
+        <br><br>
+        <img src="../Logo/About.jpg" style="height:120px; margin:5px; float:left">
+        <br />
+        <h1>Chevalresk</h1>
+        <br />
+        <br>
+        <hr>
+        <p style="font-size:x-large" class="about">
+            Site de vente et d'achat d'items. <br>
+            Il a été conçu dans le cadre pédagogique du cours 420-KBE-LG.
+        </p>
+        <hr>
+        <p style="font-size:x-large" class="about">
+            Auteur: Zacharie Lassey et Nicolas Parent <br />
+            Email: <a href="../201936007@edu.clg.qc.ca">Nicolas Parent</a> / <a href="zak">Zacharie Lassey</a><br />
+            Département d'Informatique<br />
+            Collège Lionel-Groulx
+        </p>
+
+    </div>
+}

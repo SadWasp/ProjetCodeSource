@@ -1,0 +1,16 @@
+﻿
+@model IEnumerable<Chevalresk_1.Models.ItemView>
+
+@{int c = 0;}
+@foreach (var item in Model)
+{
+    if (item.flag == 1)
+    {
+        <a href="@Url.Action("Details/" + item.Id.ToString(), "Items")" class="mainPageText">
+            @Helper.ImageThumbnailWithPriceAndRating(item.Name, item.GetImageURL(), item.Prix, (float)item.RatingsAverage, item.NbRatings, item.Name)
+        </a>
+        c++;
+    }
+}
+
+

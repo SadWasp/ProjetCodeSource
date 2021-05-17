@@ -1,0 +1,682 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="DBModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="Armes">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="idItems" Type="int" Nullable="false" />
+          <Property Name="genre" Type="varchar" MaxLength="50" />
+          <Property Name="efficacite" Type="varchar" MaxLength="50" />
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Armures">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="idItems" Type="int" Nullable="false" />
+          <Property Name="Poids" Type="int" Nullable="false" />
+          <Property Name="matiere" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="taille" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Inventaires">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="ItemId" Type="int" Nullable="false" />
+          <Property Name="UserId" Type="int" Nullable="false" />
+          <Property Name="QuantiteInventaire" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Items">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Name" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="Type" Type="nvarchar" MaxLength="30" Nullable="false" />
+          <Property Name="Prix" Type="money" Nullable="false" />
+          <Property Name="QuantiteStock" Type="int" Nullable="false" />
+          <Property Name="ImageId" Type="nvarchar(max)" />
+          <Property Name="RatingsAverage" Type="float" Nullable="false" />
+          <Property Name="NbRatings" Type="int" Nullable="false" />
+          <Property Name="flag" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Paniers">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="ItemId" Type="int" Nullable="false" />
+          <Property Name="UserId" Type="int" Nullable="false" />
+          <Property Name="QuantiteAchat" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Potions">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="idItems" Type="int" Nullable="false" />
+          <Property Name="effet" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="duree" Type="int" />
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Ratings">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="ItemId" Type="int" Nullable="false" />
+          <Property Name="UserId" Type="int" Nullable="false" />
+          <Property Name="Value" Type="int" Nullable="false" />
+          <Property Name="Comment" Type="nvarchar(max)" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Ressources">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="idItems" Type="int" Nullable="false" />
+          <Property Name="description" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Users">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Alias" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="Password" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="FullName" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="Admin" Type="bit" Nullable="false" />
+          <Property Name="Montant" Type="money" Nullable="false" />
+          <Property Name="AvatarId" Type="nvarchar(max)" />
+        </EntityType>
+        <Association Name="FK_Armes_Items">
+          <End Role="Items" Type="Self.Items" Multiplicity="1" />
+          <End Role="Armes" Type="Self.Armes" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Items">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Armes">
+              <PropertyRef Name="idItems" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Armures_Items">
+          <End Role="Items" Type="Self.Items" Multiplicity="1" />
+          <End Role="Armures" Type="Self.Armures" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Items">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Armures">
+              <PropertyRef Name="idItems" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Inv_Items">
+          <End Role="Items" Type="Self.Items" Multiplicity="1" />
+          <End Role="Inventaires" Type="Self.Inventaires" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Items">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Inventaires">
+              <PropertyRef Name="ItemId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Inv_Users">
+          <End Role="Users" Type="Self.Users" Multiplicity="1" />
+          <End Role="Inventaires" Type="Self.Inventaires" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Users">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Inventaires">
+              <PropertyRef Name="UserId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Panier_Users">
+          <End Role="Users" Type="Self.Users" Multiplicity="1" />
+          <End Role="Paniers" Type="Self.Paniers" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Users">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Paniers">
+              <PropertyRef Name="UserId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Paniers_Items">
+          <End Role="Items" Type="Self.Items" Multiplicity="1" />
+          <End Role="Paniers" Type="Self.Paniers" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Items">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Paniers">
+              <PropertyRef Name="ItemId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Potions_Items">
+          <End Role="Items" Type="Self.Items" Multiplicity="1" />
+          <End Role="Potions" Type="Self.Potions" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Items">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Potions">
+              <PropertyRef Name="idItems" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Ratings_Items">
+          <End Role="Items" Type="Self.Items" Multiplicity="1" />
+          <End Role="Ratings" Type="Self.Ratings" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Items">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Ratings">
+              <PropertyRef Name="ItemId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Ratings_Users">
+          <End Role="Users" Type="Self.Users" Multiplicity="1" />
+          <End Role="Ratings" Type="Self.Ratings" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Users">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Ratings">
+              <PropertyRef Name="UserId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Ressources_Items">
+          <End Role="Items" Type="Self.Items" Multiplicity="1" />
+          <End Role="Ressources" Type="Self.Ressources" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Items">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Ressources">
+              <PropertyRef Name="idItems" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="DBModelStoreContainer">
+          <EntitySet Name="Armes" EntityType="Self.Armes" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Armures" EntityType="Self.Armures" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Inventaires" EntityType="Self.Inventaires" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Items" EntityType="Self.Items" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Paniers" EntityType="Self.Paniers" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Potions" EntityType="Self.Potions" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Ratings" EntityType="Self.Ratings" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Ressources" EntityType="Self.Ressources" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Users" EntityType="Self.Users" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_Armes_Items" Association="Self.FK_Armes_Items">
+            <End Role="Items" EntitySet="Items" />
+            <End Role="Armes" EntitySet="Armes" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Armures_Items" Association="Self.FK_Armures_Items">
+            <End Role="Items" EntitySet="Items" />
+            <End Role="Armures" EntitySet="Armures" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Inv_Items" Association="Self.FK_Inv_Items">
+            <End Role="Items" EntitySet="Items" />
+            <End Role="Inventaires" EntitySet="Inventaires" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Inv_Users" Association="Self.FK_Inv_Users">
+            <End Role="Users" EntitySet="Users" />
+            <End Role="Inventaires" EntitySet="Inventaires" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Panier_Users" Association="Self.FK_Panier_Users">
+            <End Role="Users" EntitySet="Users" />
+            <End Role="Paniers" EntitySet="Paniers" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Paniers_Items" Association="Self.FK_Paniers_Items">
+            <End Role="Items" EntitySet="Items" />
+            <End Role="Paniers" EntitySet="Paniers" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Potions_Items" Association="Self.FK_Potions_Items">
+            <End Role="Items" EntitySet="Items" />
+            <End Role="Potions" EntitySet="Potions" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Ratings_Items" Association="Self.FK_Ratings_Items">
+            <End Role="Items" EntitySet="Items" />
+            <End Role="Ratings" EntitySet="Ratings" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Ratings_Users" Association="Self.FK_Ratings_Users">
+            <End Role="Users" EntitySet="Users" />
+            <End Role="Ratings" EntitySet="Ratings" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Ressources_Items" Association="Self.FK_Ressources_Items">
+            <End Role="Items" EntitySet="Items" />
+            <End Role="Ressources" EntitySet="Ressources" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="DBModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="Arme">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="idItems" Type="Int32" Nullable="false" />
+          <Property Name="genre" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="efficacite" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <NavigationProperty Name="Item" Relationship="Self.FK_Armes_Items" FromRole="Armes" ToRole="Items" />
+        </EntityType>
+        <EntityType Name="Armure">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="idItems" Type="Int32" Nullable="false" />
+          <Property Name="Poids" Type="Int32" Nullable="false" />
+          <Property Name="matiere" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="taille" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <NavigationProperty Name="Item" Relationship="Self.FK_Armures_Items" FromRole="Armures" ToRole="Items" />
+        </EntityType>
+        <EntityType Name="Inventaire">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="ItemId" Type="Int32" Nullable="false" />
+          <Property Name="UserId" Type="Int32" Nullable="false" />
+          <Property Name="QuantiteInventaire" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Item" Relationship="Self.FK_Inv_Items" FromRole="Inventaires" ToRole="Items" />
+          <NavigationProperty Name="User" Relationship="Self.FK_Inv_Users" FromRole="Inventaires" ToRole="Users" />
+        </EntityType>
+        <EntityType Name="Item">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Type" Type="String" MaxLength="30" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Prix" Type="Decimal" Precision="19" Scale="4" Nullable="false" />
+          <Property Name="QuantiteStock" Type="Int32" Nullable="false" />
+          <Property Name="ImageId" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Armes" Relationship="Self.FK_Armes_Items" FromRole="Items" ToRole="Armes" />
+          <NavigationProperty Name="Armures" Relationship="Self.FK_Armures_Items" FromRole="Items" ToRole="Armures" />
+          <NavigationProperty Name="Inventaires" Relationship="Self.FK_Inv_Items" FromRole="Items" ToRole="Inventaires" />
+          <NavigationProperty Name="Paniers" Relationship="Self.FK_Paniers_Items" FromRole="Items" ToRole="Paniers" />
+          <NavigationProperty Name="Potions" Relationship="Self.FK_Potions_Items" FromRole="Items" ToRole="Potions" />
+          <NavigationProperty Name="Ressources" Relationship="Self.FK_Ressources_Items" FromRole="Items" ToRole="Ressources" />
+          <Property Name="RatingsAverage" Type="Double" Nullable="false" />
+          <Property Name="NbRatings" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Ratings" Relationship="DBModel.FK_Ratings_Items" FromRole="Item" ToRole="Rating" />
+          <Property Name="flag" Type="Int32" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Panier">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="ItemId" Type="Int32" Nullable="false" />
+          <Property Name="UserId" Type="Int32" Nullable="false" />
+          <Property Name="QuantiteAchat" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Item" Relationship="Self.FK_Paniers_Items" FromRole="Paniers" ToRole="Items" />
+          <NavigationProperty Name="User" Relationship="Self.FK_Panier_Users" FromRole="Paniers" ToRole="Users" />
+        </EntityType>
+        <EntityType Name="Potion">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="idItems" Type="Int32" Nullable="false" />
+          <Property Name="effet" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="duree" Type="Int32" />
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <NavigationProperty Name="Item" Relationship="Self.FK_Potions_Items" FromRole="Potions" ToRole="Items" />
+        </EntityType>
+        <EntityType Name="Ressource">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="idItems" Type="Int32" Nullable="false" />
+          <Property Name="description" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <NavigationProperty Name="Item" Relationship="Self.FK_Ressources_Items" FromRole="Ressources" ToRole="Items" />
+        </EntityType>
+        <EntityType Name="User">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Alias" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Password" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="FullName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Admin" Type="Boolean" Nullable="false" />
+          <Property Name="Montant" Type="Decimal" Precision="19" Scale="4" Nullable="false" />
+          <Property Name="AvatarId" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Inventaires" Relationship="Self.FK_Inv_Users" FromRole="Users" ToRole="Inventaires" />
+          <NavigationProperty Name="Paniers" Relationship="Self.FK_Panier_Users" FromRole="Users" ToRole="Paniers" />
+          <NavigationProperty Name="Ratings" Relationship="DBModel.FK_Ratings_Users" FromRole="User" ToRole="Rating" />
+        </EntityType>
+        <Association Name="FK_Armes_Items">
+          <End Role="Items" Type="Self.Item" Multiplicity="1" />
+          <End Role="Armes" Type="Self.Arme" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Items">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Armes">
+              <PropertyRef Name="idItems" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Armures_Items">
+          <End Role="Items" Type="Self.Item" Multiplicity="1" />
+          <End Role="Armures" Type="Self.Armure" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Items">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Armures">
+              <PropertyRef Name="idItems" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Inv_Items">
+          <End Role="Items" Type="Self.Item" Multiplicity="1" />
+          <End Role="Inventaires" Type="Self.Inventaire" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Items">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Inventaires">
+              <PropertyRef Name="ItemId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Inv_Users">
+          <End Role="Users" Type="Self.User" Multiplicity="1" />
+          <End Role="Inventaires" Type="Self.Inventaire" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Users">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Inventaires">
+              <PropertyRef Name="UserId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Paniers_Items">
+          <End Role="Items" Type="Self.Item" Multiplicity="1" />
+          <End Role="Paniers" Type="Self.Panier" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Items">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Paniers">
+              <PropertyRef Name="ItemId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Potions_Items">
+          <End Role="Items" Type="Self.Item" Multiplicity="1" />
+          <End Role="Potions" Type="Self.Potion" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Items">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Potions">
+              <PropertyRef Name="idItems" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Ressources_Items">
+          <End Role="Items" Type="Self.Item" Multiplicity="1" />
+          <End Role="Ressources" Type="Self.Ressource" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Items">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Ressources">
+              <PropertyRef Name="idItems" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Panier_Users">
+          <End Role="Users" Type="Self.User" Multiplicity="1" />
+          <End Role="Paniers" Type="Self.Panier" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Users">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Paniers">
+              <PropertyRef Name="UserId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="DBEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="Armes" EntityType="Self.Arme" />
+          <EntitySet Name="Armures" EntityType="Self.Armure" />
+          <EntitySet Name="Inventaires" EntityType="Self.Inventaire" />
+          <EntitySet Name="Items" EntityType="Self.Item" />
+          <EntitySet Name="Paniers" EntityType="Self.Panier" />
+          <EntitySet Name="Potions" EntityType="Self.Potion" />
+          <EntitySet Name="Ressources" EntityType="Self.Ressource" />
+          <EntitySet Name="Users" EntityType="Self.User" />
+          <AssociationSet Name="FK_Armes_Items" Association="Self.FK_Armes_Items">
+            <End Role="Items" EntitySet="Items" />
+            <End Role="Armes" EntitySet="Armes" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Armures_Items" Association="Self.FK_Armures_Items">
+            <End Role="Items" EntitySet="Items" />
+            <End Role="Armures" EntitySet="Armures" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Inv_Items" Association="Self.FK_Inv_Items">
+            <End Role="Items" EntitySet="Items" />
+            <End Role="Inventaires" EntitySet="Inventaires" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Inv_Users" Association="Self.FK_Inv_Users">
+            <End Role="Users" EntitySet="Users" />
+            <End Role="Inventaires" EntitySet="Inventaires" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Paniers_Items" Association="Self.FK_Paniers_Items">
+            <End Role="Items" EntitySet="Items" />
+            <End Role="Paniers" EntitySet="Paniers" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Potions_Items" Association="Self.FK_Potions_Items">
+            <End Role="Items" EntitySet="Items" />
+            <End Role="Potions" EntitySet="Potions" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Ressources_Items" Association="Self.FK_Ressources_Items">
+            <End Role="Items" EntitySet="Items" />
+            <End Role="Ressources" EntitySet="Ressources" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Panier_Users" Association="Self.FK_Panier_Users">
+            <End Role="Users" EntitySet="Users" />
+            <End Role="Paniers" EntitySet="Paniers" />
+          </AssociationSet>
+          <EntitySet Name="Ratings" EntityType="DBModel.Rating" />
+          <AssociationSet Name="FK_Ratings_Items" Association="DBModel.FK_Ratings_Items">
+            <End Role="Item" EntitySet="Items" />
+            <End Role="Rating" EntitySet="Ratings" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Ratings_Users" Association="DBModel.FK_Ratings_Users">
+            <End Role="User" EntitySet="Users" />
+            <End Role="Rating" EntitySet="Ratings" />
+          </AssociationSet>
+        </EntityContainer>
+        <EntityType Name="Rating">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="ItemId" Type="Int32" Nullable="false" />
+          <Property Name="UserId" Type="Int32" Nullable="false" />
+          <Property Name="Value" Type="Int32" Nullable="false" />
+          <Property Name="Comment" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Item" Relationship="DBModel.FK_Ratings_Items" FromRole="Rating" ToRole="Item" />
+          <NavigationProperty Name="User" Relationship="DBModel.FK_Ratings_Users" FromRole="Rating" ToRole="User" />
+        </EntityType>
+        <Association Name="FK_Ratings_Items">
+          <End Type="DBModel.Item" Role="Item" Multiplicity="1" />
+          <End Type="DBModel.Rating" Role="Rating" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Item">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Rating">
+              <PropertyRef Name="ItemId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Ratings_Users">
+          <End Type="DBModel.User" Role="User" Multiplicity="1" />
+          <End Type="DBModel.Rating" Role="Rating" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="User">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Rating">
+              <PropertyRef Name="UserId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="DBModelStoreContainer" CdmEntityContainer="DBEntities">
+          <EntitySetMapping Name="Armes">
+            <EntityTypeMapping TypeName="DBModel.Arme">
+              <MappingFragment StoreEntitySet="Armes">
+                <ScalarProperty Name="idItems" ColumnName="idItems" />
+                <ScalarProperty Name="genre" ColumnName="genre" />
+                <ScalarProperty Name="efficacite" ColumnName="efficacite" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Armures">
+            <EntityTypeMapping TypeName="DBModel.Armure">
+              <MappingFragment StoreEntitySet="Armures">
+                <ScalarProperty Name="idItems" ColumnName="idItems" />
+                <ScalarProperty Name="Poids" ColumnName="Poids" />
+                <ScalarProperty Name="matiere" ColumnName="matiere" />
+                <ScalarProperty Name="taille" ColumnName="taille" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Inventaires">
+            <EntityTypeMapping TypeName="DBModel.Inventaire">
+              <MappingFragment StoreEntitySet="Inventaires">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="ItemId" ColumnName="ItemId" />
+                <ScalarProperty Name="UserId" ColumnName="UserId" />
+                <ScalarProperty Name="QuantiteInventaire" ColumnName="QuantiteInventaire" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Items">
+            <EntityTypeMapping TypeName="DBModel.Item">
+              <MappingFragment StoreEntitySet="Items">
+                <ScalarProperty Name="flag" ColumnName="flag" />
+                <ScalarProperty Name="NbRatings" ColumnName="NbRatings" />
+                <ScalarProperty Name="RatingsAverage" ColumnName="RatingsAverage" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Type" ColumnName="Type" />
+                <ScalarProperty Name="Prix" ColumnName="Prix" />
+                <ScalarProperty Name="QuantiteStock" ColumnName="QuantiteStock" />
+                <ScalarProperty Name="ImageId" ColumnName="ImageId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Paniers">
+            <EntityTypeMapping TypeName="DBModel.Panier">
+              <MappingFragment StoreEntitySet="Paniers">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="ItemId" ColumnName="ItemId" />
+                <ScalarProperty Name="UserId" ColumnName="UserId" />
+                <ScalarProperty Name="QuantiteAchat" ColumnName="QuantiteAchat" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Potions">
+            <EntityTypeMapping TypeName="DBModel.Potion">
+              <MappingFragment StoreEntitySet="Potions">
+                <ScalarProperty Name="idItems" ColumnName="idItems" />
+                <ScalarProperty Name="effet" ColumnName="effet" />
+                <ScalarProperty Name="duree" ColumnName="duree" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Ressources">
+            <EntityTypeMapping TypeName="DBModel.Ressource">
+              <MappingFragment StoreEntitySet="Ressources">
+                <ScalarProperty Name="idItems" ColumnName="idItems" />
+                <ScalarProperty Name="description" ColumnName="description" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Users">
+            <EntityTypeMapping TypeName="DBModel.User">
+              <MappingFragment StoreEntitySet="Users">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="Alias" ColumnName="Alias" />
+                <ScalarProperty Name="Password" ColumnName="Password" />
+                <ScalarProperty Name="FullName" ColumnName="FullName" />
+                <ScalarProperty Name="Admin" ColumnName="Admin" />
+                <ScalarProperty Name="Montant" ColumnName="Montant" />
+                <ScalarProperty Name="AvatarId" ColumnName="AvatarId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Ratings">
+            <EntityTypeMapping TypeName="DBModel.Rating">
+              <MappingFragment StoreEntitySet="Ratings">
+                <ScalarProperty Name="Comment" ColumnName="Comment" />
+                <ScalarProperty Name="Value" ColumnName="Value" />
+                <ScalarProperty Name="UserId" ColumnName="UserId" />
+                <ScalarProperty Name="ItemId" ColumnName="ItemId" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="true" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="Aucun" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

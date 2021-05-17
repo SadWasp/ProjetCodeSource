@@ -1,0 +1,33 @@
+﻿@model Chevalresk_1.Models.RatingView
+
+@{
+    ViewBag.Title = "Delete";
+}
+
+<div>
+    <h3>Êtes-vous sur de vouloir supprimer ce commentaire ?</h3>
+    @Helper.FlashButton("Index", "Items", "iconLeft", "Retour a la liste d'items", "bottom")
+    <hr />
+    <dl class="dl-horizontal">
+        <table>
+            <tr>
+                <td style="font-weight:bold; font-size:medium">évaluation :&nbsp;</td>
+                <td>@Helper.RatingBar("Value", (int)ViewBag.UserRating, true)</td>
+            </tr>
+        </table>
+
+        <dd>
+            @Html.DisplayFor(model => model.Comment)
+        </dd>
+
+    </dl>
+
+    @using (Html.BeginForm())
+    {
+        @Html.AntiForgeryToken()
+
+        <div class="form-actions no-color">
+            <input type="submit" value="Effacer" class="btn btn-danger" />
+        </div>
+    }
+</div>
